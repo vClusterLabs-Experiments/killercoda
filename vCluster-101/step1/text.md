@@ -12,4 +12,4 @@ With kubectx we can check the current context to see which Kubernetes API endpoi
 
 `kubectx`{{exec}}
 
-Our current context is `kubernetes-admin@kubernetes`.
+You should see something like `kubernetes-admin@kubernetes` indicating you’re operating on the host cluster.

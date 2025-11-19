@@ -1,6 +1,6 @@
 ### Great Job, You are a vCluster Pro!
 
-Now that you are a vCluster 101 Pro, give it a try on your Kubernetes Cluster. 
+Now that you’ve completed the vCluster 101 lab, try creating your own virtual clusters on any Kubernetes environment.
 
 We have install options on our install page:
 
@@ -14,4 +14,4 @@ Join us on Slack if you have questions:
 
 https://slack.vcluster.com
 
-Thank you for working through our vCluster 101 Scenario!
+Thank you for working through our vCluster 101 lab!
