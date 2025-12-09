@@ -1,0 +1,336 @@
+# vCluster 102: Tenancy Models & CRD Isolation
+## A Complete Killercoda Scenario
+
+============================================================
+
+## INTRO
+
+Welcome to **vCluster 102**, a hands-on scenario where you will explore what Kubernetes tenancy really means.
+
+Kubernetes offers Namespaces as the default isolation method, but Namespaces alone fall short for true multitenancy. vCluster provides a lightweight virtualized control plane that isolates tenants at the API server, CRD, controller, and scheduler levels.
+
+In this scenario we will cover:
+
+- Why Namespaces are limited
+- How vClusters solve Namespace problems
+- How CRDs behave globally vs virtually
+- Running different CRD versions in host vs vCluster
+- Installing alternative components inside a vCluster
+- vCluster Tenancy Modes:
+  - Shared Nodes
+  - Dedicated Nodes
+  - Private Nodes
+  - Private Nodes + Autonodes
+
+By the end, you will understand how vCluster enables multi-tenant Kubernetes architectures safely and efficiently.
+
+If you need help, join the community Slack:
+
+https://slack.vcluster.com
+
+============================================================
+
+## STEP 1 — What Is a Namespace?
+
+Namespaces are the **default isolation mechanism** in Kubernetes. They allow logical grouping of resources, controlling access, and splitting environments or teams.
+However, Namespaces **share a single control plane**.
+
+### Problems with Namespaces:
+
+- They do **not isolate the API server**
+- **CRDs are global**—all tenants share the same version
+- Cluster-wide controllers can affect all Namespaces
+- Tenants can break each other through:
+  - RBAC misconfigurations
+  - Resource quota conflicts
+  - CRD version mismatches
+
+List namespaces:
+
+`kubectl get ns`{{exec}}
+
+Expected output includes `kube-system`, `default`, etc.
+
+Namespaces are helpful, but they **cannot provide full multi-tenant isolation**.
+
+============================================================
+
+## STEP 2 — What Is a vCluster?
+
+A **vCluster (virtual cluster)** is a lightweight Kubernetes control plane that runs **inside** a Namespace but behaves as an independent Kubernetes cluster.
+
+A vCluster has its own:
+- API server
+- Scheduler
+- Controllers
+- CRDs
+
+This isolates tenants at the *control plane level*, not just at the Namespace level.
+
+### Create a vCluster:
+
+`vcluster create my-vcluster --namespace team-x`{{exec}}
+
+### Connect:
+
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
+
+When connected, your kubeconfig points to the **virtual API server**, not the host.
+
+============================================================
+
+## STEP 3 — CRD Version Differences (Host vs vCluster)
+
+CRDs in Kubernetes are **cluster-scoped**, meaning all Namespaces share the same CRD definitions.
+
+But vClusters **virtualize CRDs**, so each vCluster can define:
+- different CRD versions
+- CRDs that don't exist on the host
+- CRDs that would conflict in a shared cluster
+
+### Check host CRDs:
+
+`kubectl get crds`{{exec}}
+
+### Check vCluster CRDs:
+
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
+
+`kubectl get crds`{{exec}}
+
+You will usually see fewer CRDs inside the vCluster unless you install some.
+
+CRDs become a perfect demonstration of vCluster isolation.
+
+============================================================
+
+## STEP 4 — Install CRD in the Host Cluster
+
+In this step, we simulate a real-world scenario where the platform team installs a MySQL Operator CRD at the cluster level.
+
+### Install MySQL Operator (which creates the CRD):
+
+`helm repo add bitnami https://charts.bitnami.com/bitnami`{{exec}}
+
+`helm install mysql-operator bitnami/mysql-operator --namespace kube-system --create-namespace`{{exec}}
+
+Inspect it:
+
+`kubectl get crd mysqlclusters.mysql.presslabs.org -o yaml`{{exec}}
+
+Now check the CRD that was created:
+
+`kubectl get crds | grep mysql`{{exec}}
+
+### Result:
+
+The host cluster now has the MySQL Operator CRD installed, which can impact workloads if versions conflict.
+
+This is a common issue in shared cluster environments.
+
+============================================================
+
+## STEP 5 — Install a Different CRD Version in the vCluster
+
+Inside the vCluster, we can install a **completely different CRD version** without impacting the host cluster.
+
+### Connect and install a different MySQL Operator version:
+
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
+
+`helm repo add bitnami https://charts.bitnami.com/bitnami`{{exec}}
+
+`helm install mysql-operator-vc bitnami/mysql-operator --namespace kube-system --create-namespace --version 0.4.0`{{exec}}
+
+`kubectl get crds | grep mysql`{{exec}}
+
+Now compare the host vs vCluster:
+
+### Host version:
+
+`kubectl get crd mysqlclusters.mysql.presslabs.org -o yaml`{{exec}}
+
+### vCluster version:
+
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
+`kubectl get crd mysqlclusters.mysql.presslabs.org -o yaml`{{exec}}
+
+The two versions differ — and that's the point.
+vClusters allow **CRD version isolation**, making testing and migration safer.
+
+============================================================
+
+## STEP 6 — Install an Alternative or Updated CRD in the Host Cluster
+
+The host cluster may install other CRDs for other operators or workloads.
+
+### Example: Install Postgres Operator (which creates the CRD):
+
+`helm repo add cnpg https://cloudnative-pg.github.io/charts`{{exec}}
+
+`helm install postgres-operator cnpg/cloudnative-pg --namespace kube-system --create-namespace`{{exec}}
+
+Then list all CRDs:
+
+`kubectl get crds`{{exec}}
+
+The host now contains both MySQL and Postgres CRDs globally.
+
+This illustrates how CRDs accumulate in platform clusters and why isolation matters.
+
+============================================================
+
+## STEP 7 — Install an Alternative Component Inside the vCluster
+
+Inside the vCluster, tenants can install operators or components that conflict with host components—without affecting the cluster.
+
+### Example: Install a Postgres Operator inside the vCluster:
+
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
+
+`helm repo add cnpg https://cloudnative-pg.github.io/charts`{{exec}}
+
+`helm install postgres-operator-vc cnpg/cloudnative-pg --namespace kube-system --create-namespace`{{exec}}
+
+`kubectl get crds | grep postgre`{{exec}}
+
+This shows:
+- Host cluster uses MySQL
+- vCluster uses Postgres
+- No conflicts
+
+This demonstrates full tenant autonomy.
+
+============================================================
+
+## STEP 8 — Tenancy Model Overview
+
+vClusters support multiple workload placement models depending on your isolation needs.
+
+### The Three Main Tenancy Modes:
+
+1. **Shared Nodes** — All vCluster workloads run on the same nodes  
+2. **Dedicated Nodes** — Each vCluster gets specific nodes via nodeSelectors  
+3. **Private Nodes + Autonodes** — vClusters get exclusive nodes with auto-scaling  
+
+Each model balances cost, performance, and security differently.
+
+This is what you'll explore in the next steps.
+
+============================================================
+
+## STEP 9 — Shared Nodes
+
+In Shared Node tenancy, all workloads—including Pods from multiple vClusters—run on the same underlying node pool.
+
+### Benefits:
+
+- Very cost-efficient
+- Minimal complexity
+- Perfect for dev environments or experiments
+
+### Downsides:
+
+- Potential noisy-neighbor issues
+- Tenants share compute resources
+- Not ideal for regulated workloads
+
+### Show nodes:
+
+`kubectl get nodes`{{exec}}
+
+Expected: a shared list of worker nodes.
+
+============================================================
+
+## STEP 10 — Dedicated Nodes
+
+Dedicated Node tenancy ensures Pods from a vCluster run **only** on specific nodes assigned to that vCluster.
+
+This is accomplished with nodeSelectors, taints, and tolerations.
+
+### Example vcluster.yaml:
+
+```yaml
+sync:
+  nodes:
+    enabled: true
+
+scheduler:
+  nodeSelector:
+    dedicated: tenant-1
+```
+
+### Benefits:
+
+- Strong workload separation
+- Reduced noisy-neighbor issues
+
+### Downsides:
+
+- Requires capacity planning
+- Slightly more operational overhead
+
+============================================================
+
+## STEP 11 — Private Nodes + Autonodes
+
+Private Nodes give a vCluster **exclusive ownership** of nodes.
+Autonodes allow the vCluster to automatically **create and remove nodes** based on workload demand.
+
+These features provide the **strongest form of isolation**.
+
+### Example Configuration:
+
+```yaml
+privateNodes:
+  enabled: true
+  autonodes:
+    enabled: true
+```
+
+### Benefits:
+
+- Highest isolation
+- Auto-scaling node pools per tenant
+- Ideal for:
+  - Compliance environments
+  - Sensitive workloads
+  - Dynamic ephemeral testing
+
+### Downsides:
+
+- Highest cost
+- Nodes are not shared with other teams
+
+============================================================
+
+## FINISH
+
+**Congratulations! You've completed the vCluster 102 Scenario.**
+
+You learned:
+
+- Why Namespaces are not enough for real multi-tenancy
+- How vClusters isolate control planes and CRDs
+- How host and vCluster CRDs can differ safely
+- How to install alternate operators inside virtual clusters
+- How vCluster tenancy models work
+  - Shared Nodes
+  - Dedicated Nodes
+  - Private Nodes
+  - Autonodes
+
+### Next Steps
+
+Explore additional scenarios:
+
+- **vCluster 101 — Intro to vClusters**
+
+Join the community:
+https://slack.vcluster.com
+
+Learn more at:
+https://vcluster.com/docs
+
+============================================================

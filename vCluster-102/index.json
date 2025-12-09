@@ -1,0 +1,25 @@
+{
+  "title": "v102 - vCluster: Tenancy Models & CRD Isolation",
+  "description": "Explore Kubernetes tenancy challenges and how vCluster enables isolated tenant environments with flexible CRD versioning. Compare Namespaces vs Virtual Clusters, test global vs virtual CRDs, and explore vCluster tenancy models.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "What is a Namespace?", "text": "step1/text.md", "verify": "step1/verify.sh" },
+      { "title": "What is a vCluster?", "text": "step2/text.md", "verify": "step2/verify.sh" },
+      { "title": "CRD Version Differences", "text": "step3/text.md", "verify": "step3/verify.sh" },
+      { "title": "Install Host CRD", "text": "step4/text.md", "verify": "step4/verify.sh" },
+      { "title": "Install vCluster CRD (Different Version)", "text": "step5/text.md", "verify": "step5/verify.sh" },
+      { "title": "Host Alternative or Updated CRDs", "text": "step6/text.md", "verify": "step6/verify.sh" },
+      { "title": "Install Alternative Component in vCluster", "text": "step7/text.md", "verify": "step7/verify.sh" },
+      { "title": "Tenancy Model Overview", "text": "step8/text.md", "verify": "step8/verify.sh" },
+      { "title": "Shared Nodes", "text": "step9/text.md", "verify": "step9/verify.sh" },
+      { "title": "Dedicated Nodes", "text": "step10/text.md", "verify": "step10/verify.sh" },
+      { "title": "Private Nodes + Autonodes", "text": "step11/text.md", "verify": "step11/verify.sh" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes-kubeadm-1node-4GB" }
+}
