@@ -14,8 +14,4 @@ This isolates tenants at the *control plane level*, not just at the Namespace le
 
 `vcluster create my-vcluster --namespace team-x`{{exec}}
 
-## Connect:
-
-`vcluster connect my-vcluster --namespace team-x`{{exec}}
-
 When connected, your kubeconfig points to the **virtual API server**, not the host.
