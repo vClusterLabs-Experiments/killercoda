@@ -1,6 +1,6 @@
 {
-  "title": "v102 - vCluster: Tenancy Models & CRD Isolation",
-  "description": "Explore Kubernetes tenancy challenges and how vCluster enables isolated tenant environments with flexible CRD versioning. Compare Namespaces vs Virtual Clusters, test global vs virtual CRDs, and explore vCluster tenancy models.",
+  "title": "v102 - vCluster Tenancy Models & CRDs",
+  "description": "vCluster Tenancy Models and CRDs scenario.",
   "details": {
     "intro": {
       "text": "intro.md",

@@ -13,9 +13,3 @@ In Shared Node tenancy, all workloadsâ€”including Pods from multiple vClustersâ€
 - Potential noisy-neighbor issues
 - Tenants share compute resources
 - Not ideal for regulated workloads
-
-## Show nodes:
-
-`kubectl get nodes`{{exec}}
-
-Expected: a shared list of worker nodes.

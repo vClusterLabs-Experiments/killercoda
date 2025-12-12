@@ -8,6 +8,10 @@ Let's make sure we are on the host cluster before deploying Kyverno.
 
 `kubectx`{{exec}}
 
+If not then run disconnect
+
+`vcluster disconnect`
+
 ## Install Kyverno on the host:
 
 `kubectl apply -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml`{{exec}}
