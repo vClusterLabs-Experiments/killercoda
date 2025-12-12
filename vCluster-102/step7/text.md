@@ -1,34 +1,20 @@
-# Install Alternative Cert-Manager Configuration Inside the vCluster
+# Install Kyverno inside the vCluster
 
-Inside the vCluster, tenants can configure cert-manager resources independently without affecting the host cluster.
+Inside the vCluster, tenants can run a different policy engine — for example, Kyverno — to manage policies using its own CRDs (`ClusterPolicy`, `Policy`, etc.). This shows that host and vCluster can run different tools with similar responsibilities.
 
-## Example: Create a ClusterIssuer with different settings in the vCluster:
+## Install Kyverno in the vCluster:
 
 `vcluster connect my-vcluster --namespace team-x`{{exec}}
 
-`kubectl apply -f - <<EOF
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-staging
-spec:
-  acme:
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: admin@example.com
-    privateKeySecretRef:
-      name: letsencrypt-staging
-    solvers:
-    - http01:
-        ingress: {}
-EOF`{{exec}}
+`kubectl apply -f https://raw.githubusercontent.com/kyverno/kyverno/main/config/release/install.yaml`{{exec}}
 
-List the ClusterIssuers in the vCluster:
+List Kyverno CRDs in the vCluster:
 
-`kubectl get clusterissuers`{{exec}}
+`kubectl get crds | grep kyverno.io || true`{{exec}}
 
 This shows:
-- Host cluster uses self-signed certificates
-- vCluster uses Let's Encrypt staging
-- No conflicts
+- Host cluster runs OPA Gatekeeper
+- vCluster runs Kyverno
+- No conflicts between their CRDs
 
-This demonstrates full tenant autonomy in certificate management.
+This demonstrates full tenant autonomy for policy enforcement tools.

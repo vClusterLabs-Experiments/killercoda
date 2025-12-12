@@ -1,26 +1,17 @@
-# Install Additional CRD Resources in the Host Cluster
+# Install OPA (Gatekeeper) in the Host Cluster
 
-The host cluster may configure additional cert-manager resources or CRD features for specific use cases.
+The host cluster can run a policy controller such as OPA Gatekeeper. Gatekeeper adds a small set of CRDs (ConstraintTemplate, Constraint, etc.) that demonstrate how policy CRDs live at the cluster level.
 
-## Example: Create a ClusterIssuer resource on the host:
+## Install Gatekeeper (OPA) on the host:
 
 `vcluster disconnect`{{exec}}
 
-`kubectl create namespace cert-manager 2>/dev/null || true`{{exec}}
+`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`{{exec}}
 
-`kubectl apply -f - <<EOF
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned
-spec:
-  selfSigned: {}
-EOF`{{exec}}
+List the Gatekeeper/OPA CRDs:
 
-List the ClusterIssuers:
+`kubectl get crds | grep -E "Constraint|ConstraintTemplate|gatekeeper" || true`{{exec}}
 
-`kubectl get clusterissuers`{{exec}}
+The host now contains OPA Gatekeeper CRDs and the controller.
 
-The host now contains Cert-Manager resources configured for its specific needs.
-
-This illustrates how operators accumulate configuration in platform clusters and why isolation matters.
+This illustrates how policy CRDs accumulate in platform clusters and why isolation matters.
