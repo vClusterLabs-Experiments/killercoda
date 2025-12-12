@@ -1,17 +1,23 @@
-# Install OPA (Gatekeeper) in the Host Cluster
+# Install Kyverno in the Host Cluster
 
-The host cluster can run a policy controller such as OPA Gatekeeper. Gatekeeper adds a small set of CRDs (ConstraintTemplate, Constraint, etc.) that demonstrate how policy CRDs live at the cluster level.
+The host cluster can run a policy controller such as Kyverno. Kyverno adds policy CRDs (`ClusterPolicy`, `Policy`, etc.) and is straightforward to install via manifest.
 
-## Install Gatekeeper (OPA) on the host:
+## Verify Context
+
+Let's make sure we are on the host cluster before deploying Kyverno.
 
 `vcluster disconnect`{{exec}}
 
-`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`{{exec}}
+`kubectx`{{exec}}
 
-List the Gatekeeper/OPA CRDs:
+## Install Kyverno on the host:
 
-`kubectl get crds | grep -E "Constraint|ConstraintTemplate|gatekeeper" || true`{{exec}}
+`kubectl apply -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml`{{exec}}
 
-The host now contains OPA Gatekeeper CRDs and the controller.
+List Kyverno CRDs:
+
+`kubectl get crds | grep -i kyverno`{{exec}}
+
+The host now contains Kyverno CRDs and the controller.
 
 This illustrates how policy CRDs accumulate in platform clusters and why isolation matters.
