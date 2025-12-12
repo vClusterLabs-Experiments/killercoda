@@ -6,13 +6,13 @@ In this step, we simulate a real-world scenario where the platform team installs
 
 `vcluster disconnect`{{exec}}
 
-`kubectx`
+`kubectx`{{exec}}
 
 ## Install Cert-Manager v1.14 on the host:
 
-`helm repo add jetstack https://charts.jetstack.io`{{exec}}
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.0/cert-manager.crds.yaml`{{exec}}
 
-`helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version 1.14.0`{{exec}}
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.0/cert-manager.yaml`{{exec}}
 
 Inspect the CRD:
 

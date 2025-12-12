@@ -6,9 +6,9 @@ Inside the vCluster, we can install a **completely different version** of Cert-M
 
 `vcluster connect my-vcluster --namespace team-x`{{exec}}
 
-`helm repo add jetstack https://charts.jetstack.io`{{exec}}
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.crds.yaml`{{exec}}
 
-`helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version 1.13.0`{{exec}}
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml`{{exec}}
 
 List the CRDs:
 
