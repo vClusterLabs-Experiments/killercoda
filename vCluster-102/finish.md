@@ -2,10 +2,10 @@
 
 You learned:
 
-- Why Namespaces are not enough for real multi-tenancy
-- How vClusters isolate control planes and CRDs
+- Why Namespaces may not be enough for multi-tenancy
+- How vCluster isolates control planes and CRDs
 - How host and vCluster CRDs can differ safely
-- How to install alternate operators inside virtual clusters
+- How to install alternate CRDs inside virtual clusters
 - How vCluster tenancy models work
   - Shared Nodes
   - Dedicated Nodes
@@ -16,7 +16,7 @@ You learned:
 
 Explore additional scenarios:
 
-- **vCluster 101 — Intro to vClusters**
+https://killercoda.com/vcluster
 
 Join the community:
 https://slack.vcluster.com

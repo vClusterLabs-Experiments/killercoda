@@ -1,15 +1,9 @@
 # Shared Nodes
 
-In Shared Node tenancy, all workloads—including Pods from multiple vClusters—run on the same underlying node pool.
+With Shared Nodes, all workloads from multiple virtual clusters run on the same underlying worker nodes.
 
 ## Benefits:
 
 - Very cost-efficient
 - Minimal complexity
-- Perfect for dev environments or experiments
-
-## Downsides:
-
-- Potential noisy-neighbor issues
-- Tenants share compute resources
-- Not ideal for regulated workloads
+- Perfect for dev, test, preview, and production

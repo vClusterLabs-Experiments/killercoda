@@ -1,7 +1,8 @@
 # Private Nodes + Autonodes
 
 Private Nodes give a vCluster **exclusive ownership** of nodes.
-Autonodes allow the vCluster to automatically **create and remove nodes** based on workload demand.
+
+Autonodes allow the vCluster to automatically **create and remove nodes** based on workload demand using Karpenter.
 
 These features provide the **strongest form of isolation**.
 
@@ -21,9 +22,5 @@ privateNodes:
 - Ideal for:
   - Compliance environments
   - Sensitive workloads
-  - Dynamic ephemeral testing
-
-### Downsides:
-
-- Highest cost
-- Nodes are not shared with other teams
+  - GPU Clouds
+  - Multi-Cloud

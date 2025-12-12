@@ -1,6 +1,6 @@
 # Install Cert-Manager CRD in the Host Cluster
 
-In this step, we simulate a real-world scenario where the platform team installs Cert-Manager at the cluster level. Cert-Manager is a widely-used certificate management operator that has evolved through multiple CRD versions.
+In this step, we simulate a real-world scenario where the platform team installs Cert-Manager at the cluster level.
 
 ## Verify the context to make sure we are on the host cluster:
 
@@ -14,7 +14,7 @@ The output should show kubernetes-admin@kubernetes in green.
 
 Inspect the CRD:
 
-`kubectl get crd certificates.cert-manager.io -o yaml | head -30|grep "app.kubernetes.io/version:"`{{exec}}
+`kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
 
 List all cert-manager CRDs:
 
@@ -22,6 +22,6 @@ List all cert-manager CRDs:
 
 ## Result:
 
-The host cluster now runs Cert-Manager v1.14.0 with its corresponding CRD versions.
+The host cluster now runs Cert-Manager v1.14.0.
 
 This is a common scenario in shared cluster environments where the platform team manages a specific version.

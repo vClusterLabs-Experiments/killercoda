@@ -11,12 +11,5 @@ However, Namespaces **share a single control plane**.
 - Tenants can break each other through:
   - RBAC misconfigurations
   - Resource quota conflicts
-  - CRD version mismatches
 
-List namespaces:
-
-`kubectl get ns`{{exec}}
-
-Expected output includes `kube-system`, `default`, etc.
-
-Namespaces are helpful, but they **cannot provide full multi-tenant isolation**.
+Namespaces are helpful, but they **may not provide full multi-tenant isolation**.

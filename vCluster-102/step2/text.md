@@ -4,7 +4,6 @@ A **vCluster (virtual cluster)** is a lightweight Kubernetes control plane that 
 
 A vCluster has its own:
 - API server
-- Scheduler
 - Controllers
 - CRDs
 
@@ -12,6 +11,8 @@ This isolates tenants at the *control plane level*, not just at the Namespace le
 
 ## Create a vCluster:
 
+Let's create a vCluster so that we can see what happens when we install a different CRD version on the host cluster and the vCluster.
+
 `vcluster create my-vcluster --namespace team-x`{{exec}}
 
-When connected, your kubeconfig points to the **virtual API server**, not the host.
+When connected, your kubeconfig points to the **vCluster API server**, not the host.

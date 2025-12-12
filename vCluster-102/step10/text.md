@@ -1,6 +1,6 @@
 # Dedicated Nodes
 
-Dedicated Node tenancy ensures Pods from a vCluster run **only** on specific nodes assigned to that vCluster.
+Dedicated Nodes ensure Pods from a vCluster run **only** on specific nodes assigned to that vCluster.
 
 This is accomplished with nodeSelectors, taints, and tolerations.
 
@@ -13,15 +13,10 @@ sync:
 
 scheduler:
   nodeSelector:
-    dedicated: tenant-1
+    dedicated: team-x
 ```
 
 ### Benefits:
 
 - Strong workload separation
-- Reduced noisy-neighbor issues
-
-### Downsides:
-
-- Requires capacity planning
-- Slightly more operational overhead
+- Great for putting teams on nodes with GPUs
