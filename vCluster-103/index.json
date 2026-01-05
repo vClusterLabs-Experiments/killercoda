@@ -1,12 +1,20 @@
 {
-  "title": "vCluster 103: Multi-Tenancy Isolation via Same Application Names",
+  "title": "v103 - Multi-Tenancy Isolation via Same Application Names",
   "description": "Demonstrate how vClusters allow two tenants to run the same application and service names without conflict.",
-  "steps": [
-    { "title":"Step 1 - Overview","dir":"step1" },
-    { "title":"Step 2 - Create two vClusters","dir":"step2" },
-    { "title":"Step 3 - Deploy same app name in both","dir":"step3" },
-    { "title":"Step 4 - Expose both apps","dir":"step4" },
-    { "title":"Step 5 - Verify independent access","dir":"step5" },
-    { "title":"Step 6 - Cleanup & wrap-up","dir":"step6" }
-  ]
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "setup.sh"
+    },
+    "steps": [
+      { "title": "Overview", "text": "step1/text.md", "verify": "step1/verify.sh" },
+      { "title": "Create two vClusters", "text": "step2/text.md", "verify": "step2/verify.sh" },
+      { "title": "Deploy same app name in both", "text": "step3/text.md", "verify": "step3/verify.sh" },
+      { "title": "Expose both apps", "text": "step4/text.md", "verify": "step4/verify.sh" },
+      { "title": "Verify independent access", "text": "step5/text.md", "verify": "step5/verify.sh" },
+      { "title": "Cleanup & wrap-up", "text": "step6/text.md", "verify": "step6/verify.sh" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes-kubeadm-1node-4GB" }
 }
