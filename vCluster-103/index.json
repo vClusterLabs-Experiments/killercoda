@@ -1,0 +1,12 @@
+{
+  "title": "vCluster 103: Multi-Tenancy Isolation via Same Application Names",
+  "description": "Demonstrate how vClusters allow two tenants to run the same application and service names without conflict.",
+  "steps": [
+    { "title":"Step 1 - Overview","dir":"step1" },
+    { "title":"Step 2 - Create two vClusters","dir":"step2" },
+    { "title":"Step 3 - Deploy same app name in both","dir":"step3" },
+    { "title":"Step 4 - Expose both apps","dir":"step4" },
+    { "title":"Step 5 - Verify independent access","dir":"step5" },
+    { "title":"Step 6 - Cleanup & wrap-up","dir":"step6" }
+  ]
+}
