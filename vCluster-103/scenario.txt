@@ -5,20 +5,13 @@ This scenario will demonstrate how multi-tenancy works with vCluster. We will:
 
 - Create two virtual clusters
 - Deploy my-app into each vCluster
-- 
+- Expose and verify each app runs independently
 
 You will create two vClusters, deploy the same app and service names into both, expose them, and confirm they operate independently.
 
-
-## STEP 1 — Overview
-
-This scenario demonstrates that vClusters provide isolated control planes. Two tenants can use identical resource names (Deployments, Services) without colliding on the host cluster.
-
-We'll create two vClusters: `my-vcluster-a` and `my-vcluster-b` (both in namespace `team-x`). Then we'll deploy the same application and service name `my-app` in both and expose them.
-
 ============================================================
 
-## STEP 2 — Create two vClusters
+## STEP 1 — Create two vClusters
 
 Create two vClusters in the `team-x` namespace. We'll name them `my-vcluster-a` and `my-vcluster-b`.
 
@@ -32,7 +25,7 @@ Verify both are running with `vcluster list`.
 
 ============================================================
 
-## STEP 3 — Deploy the same app name in both vClusters
+## STEP 2 — Deploy same app name in both vClusters
 
 We'll deploy a simple nginx Deployment named `my-app` in each vCluster's `default` namespace.
 
@@ -58,7 +51,7 @@ Disconnect and repeat for the second vCluster:
 
 ============================================================
 
-## STEP 4 — Expose both apps
+## STEP 3 — Expose both apps
 
 We will expose each `my-app` service so they can be reached independently.
 
@@ -92,21 +85,29 @@ Option B: port-forward locally from each vCluster context (works everywhere):
 
 ============================================================
 
-## STEP 5 — Verify independent access
+## STEP 4 — Verify independent access
 
-Now that both services are exposed (NodePort or port-forward), access them to prove they are independent.
+Now let's verify that both `my-app` instances are running independently. We'll test connectivity to each via the port-forwards we set up.
 
-If you used port-forward:
+In one terminal, verify that `my-app` in vCluster-a is accessible on port 18080:
 
-`curl -s http://localhost:18080 | head -n 1`{{exec}}
+`curl http://localhost:18080`{{exec}}
 
-`curl -s http://localhost:28080 | head -n 1`{{exec}}
+You should see the nginx welcome page HTML.
 
-If NodePort was used, use the node IP and corresponding NodePort shown in step 4.
+In another terminal, verify that `my-app` in vCluster-b is accessible on port 28080:
+
+`curl http://localhost:28080`{{exec}}
+
+Again, you should see the nginx welcome page.
+
+Both instances respond identically because they're running the same container image, but they are completely independent — deployed, scheduled, and managed separately by each vCluster's control plane.
+
+If you used NodePort instead of port-forward, check each vCluster's node IP and assigned NodePort to verify access similarly.
 
 ============================================================
 
-## STEP 6 — Cleanup & Wrap-up
+## STEP 5 — Cleanup & Wrap-up
 
 Remove the resources and vClusters when done.
 

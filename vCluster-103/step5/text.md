@@ -1,11 +1,25 @@
-Step 5 — Verify independent access
+Step 5 — Cleanup & Wrap-up
 
-Now that both services are exposed (NodePort or port-forward), access them to prove they are independent.
+Remove the resources and vClusters when done.
 
-If you used port-forward:
+Delete deployments/services inside vClusters then delete the vClusters themselves:
 
-- `curl -s http://localhost:18080 | head -n 1`{{exec}}
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
 
-- `curl -s http://localhost:28080 | head -n 1`{{exec}}
+`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
 
-If NodePort was used, use the node IP and corresponding NodePort shown in step 4.
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+Delete the virtual clusters from the host:
+
+`vcluster delete my-vcluster-a --namespace team-x`{{exec}}
+
+`vcluster delete my-vcluster-b --namespace team-x`{{exec}}
+
+Thank you — you successfully demonstrated same-name isolation with vClusters.

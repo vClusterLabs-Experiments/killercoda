@@ -1,34 +1,22 @@
 ```markdown
-# Step 4 — Expose both apps
+# Step 4 — Verify independent access
 
-We will expose each `web` service so they can be reached independently.
+Now let's verify that both `my-app` instances are running independently. We'll test connectivity to each via the port-forwards we set up.
 
-Option A: NodePort (if allowed): connect to each vCluster and patch the service to NodePort.
+In one terminal, verify that `my-app` in vCluster-a is accessible on port 18080:
 
-`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
+`curl http://localhost:18080`{{exec}}
 
-`kubectl patch svc my-app -p '{"spec": {"type": "NodePort"}}'`{{exec}}
+You should see the nginx welcome page HTML.
 
-`vcluster disconnect`{{exec}}
+In another terminal, verify that `my-app` in vCluster-b is accessible on port 28080:
 
-`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+`curl http://localhost:28080`{{exec}}
 
-`kubectl patch svc my-app -p '{"spec": {"type": "NodePort"}}'`{{exec}}
+Again, you should see the nginx welcome page.
 
-`vcluster disconnect`{{exec}}
+Both instances respond identically because they're running the same container image, but they are completely independent — deployed, scheduled, and managed separately by each vCluster's control plane.
 
-Option B: port-forward locally from each vCluster context (works everywhere):
-
-`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
-
-`kubectl port-forward svc/my-app 18080:80 &`{{exec}}
-
-`vcluster disconnect`{{exec}}
-
-`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
-
-`kubectl port-forward svc/my-app 28080:80 &`{{exec}}
-
-`vcluster disconnect`{{exec}}
+If you used NodePort instead of port-forward, check each vCluster's node IP and assigned NodePort to verify access similarly.
 
 ```

@@ -1,16 +1,26 @@
 ```markdown
-# Step 2 — Create two vClusters
+# Step 2 — Deploy same app name in both vClusters
 
-Create two vClusters in the `team-x` namespace. We'll name them `my-vcluster-a` and `my-vcluster-b`.
+We'll deploy a simple nginx Deployment named `my-app` in each vCluster's `default` namespace.
 
-Commands:
+Connect to the first vCluster and deploy:
 
-`kubectl create namespace team-x 2>/dev/null || true`{{exec}}
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
 
-`vcluster create my-vcluster-a --namespace team-x`{{exec}}
+`kubectl create deployment my-app --image=nginx --replicas=1`{{exec}}
 
-`vcluster create my-vcluster-b --namespace team-x`{{exec}}
+`kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
 
-Verify both are running with `vcluster list`.
+Disconnect and repeat for the second vCluster:
+
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl create deployment my-app --image=nginx --replicas=1`{{exec}}
+
+`kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
+
+`vcluster disconnect`{{exec}}
 
 ```
