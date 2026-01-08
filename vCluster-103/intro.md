@@ -9,5 +9,5 @@ What you'll do:
 
 - Create two vClusters (`my-vcluster-a` and `my-vcluster-b`) in the `team-x` namespace
 - Deploy the same `my-app` Deployment and Service in each vCluster
-- Expose each service (NodePort or port-forward)
+- Expose each service (Port-Forwarding)
 - Verify both services work without interfering with each other
