@@ -1,0 +1,144 @@
+```markdown
+# vCluster 103 — Multi-Tenancy Isolation via Same Application Names
+
+This scenario will demonstrate how multi-tenancy works with vCluster. We will:
+
+- Create two virtual clusters
+- Deploy my-app into each vCluster
+- Expose and verify each app runs independently
+
+You will create two vClusters, deploy the same app and service names into both, expose them, and confirm they operate independently.
+
+============================================================
+
+## STEP 1 — Create two vClusters
+
+Create two vClusters in the `team-x` namespace. We'll name them `my-vcluster-a` and `my-vcluster-b`.
+
+`kubectl create namespace team-x 2>/dev/null || true`{{exec}}
+
+`vcluster create my-vcluster-a --namespace team-x`{{exec}}
+
+`vcluster create my-vcluster-b --namespace team-x`{{exec}}
+
+Verify both are running with `vcluster list`.
+
+============================================================
+
+## STEP 2 — Deploy same app name in both vClusters
+
+We'll deploy a simple nginx Deployment named `my-app` in each vCluster's `default` namespace.
+
+Connect to the first vCluster and deploy:
+
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
+
+`kubectl create deployment my-app --image=nginx --replicas=1`{{exec}}
+
+`kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
+
+Disconnect and repeat for the second vCluster:
+
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl create deployment my-app --image=nginx --replicas=1`{{exec}}
+
+`kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+============================================================
+
+## STEP 3 — Expose both apps
+
+We will expose each `my-app` service so they can be reached independently.
+
+Option A: NodePort (if allowed): connect to each vCluster and patch the service to NodePort.
+
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
+
+`kubectl patch svc my-app -p '{"spec": {"type": "NodePort"}}'`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl patch svc my-app -p '{"spec": {"type": "NodePort"}}'`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+Option B: port-forward locally from each vCluster context (works everywhere):
+
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
+
+`kubectl port-forward svc/my-app 18080:80 &`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl port-forward svc/my-app 28080:80 &`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+============================================================
+
+## STEP 4 — Verify independent access
+
+Now let's verify that both `my-app` instances are running independently. We'll test connectivity to each via the port-forwards we set up.
+
+In one terminal, verify that `my-app` in vCluster-a is accessible on port 18080:
+
+`curl http://localhost:18080`{{exec}}
+
+You should see the nginx welcome page HTML.
+
+In another terminal, verify that `my-app` in vCluster-b is accessible on port 28080:
+
+`curl http://localhost:28080`{{exec}}
+
+Again, you should see the nginx welcome page.
+
+Both instances respond identically because they're running the same container image, but they are completely independent — deployed, scheduled, and managed separately by each vCluster's control plane.
+
+If you used NodePort instead of port-forward, check each vCluster's node IP and assigned NodePort to verify access similarly.
+
+============================================================
+
+## STEP 5 — Cleanup & Wrap-up
+
+Remove the resources and vClusters when done.
+
+Delete deployments/services inside vClusters then delete the vClusters themselves:
+
+`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
+
+`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+
+`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
+
+`vcluster disconnect`{{exec}}
+
+Delete the virtual clusters from the host:
+
+`vcluster delete my-vcluster-a --namespace team-x`{{exec}}
+
+`vcluster delete my-vcluster-b --namespace team-x`{{exec}}
+
+Thank you — you successfully demonstrated same-name isolation with vClusters.
+
+============================================================
+
+Congratulations — you saw how vClusters let tenants run identical application and service names independently.
+
+You created two vClusters, deployed the same application and service name into each, exposed them, and verified independent access.
+
+Cleanup: remove vClusters with `vcluster delete my-vcluster-a --namespace team-x` and `vcluster delete my-vcluster-b --namespace team-x`.
+
+```
