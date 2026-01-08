@@ -4,16 +4,12 @@ We will port-forward each `my-app` service so they can be reached locally.
 
 `vcluster connect my-vcluster-a`{{exec}}
 
-```bash
-kubectl port-forward svc/my-app 18080:80 &
-```{{exec}}
+`kubectl port-forward svc/my-app 18080:80 & /dev/null 2>&1`{{exec}}
 
 `vcluster disconnect`{{exec}}
 
 `vcluster connect my-vcluster-b`{{exec}}
 
-```bash
-kubectl port-forward svc/my-app 28080:80 &
-```{{exec}}
+`kubectl port-forward svc/my-app 28080:80 & /dev/null 2>&1`{{exec}}
 
 `vcluster disconnect`{{exec}}

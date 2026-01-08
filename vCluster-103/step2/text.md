@@ -10,9 +10,9 @@ Connect to the first vCluster and deploy:
 
 `kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
 
-Disconnect and repeat for the second vCluster:
-
 `vcluster disconnect`{{exec}}
+
+Repeat the steps for the second vCluster:
 
 `vcluster connect my-vcluster-b`{{exec}}
 
