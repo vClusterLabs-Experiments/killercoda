@@ -15,5 +15,3 @@ In another terminal, verify that `my-app` in vCluster-b is accessible on port 28
 Again, you should see the nginx welcome page.
 
 Both instances respond identically because they're running the same container image, but they are completely independent — deployed, scheduled, and managed separately by each vCluster's control plane.
-
-If you used NodePort instead of port-forward, check each vCluster's node IP and assigned NodePort to verify access similarly.

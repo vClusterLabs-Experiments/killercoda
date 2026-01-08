@@ -1,21 +1,5 @@
 # Step 5 — Cleanup & Wrap-up
 
-Remove the resources and vClusters when done.
-
-Delete deployments/services inside vClusters then delete the vClusters themselves:
-
-`vcluster connect my-vcluster-a --namespace team-x`{{exec}}
-
-`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
-
-`vcluster disconnect`{{exec}}
-
-`vcluster connect my-vcluster-b --namespace team-y`{{exec}}
-
-`kubectl delete svc my-app deployment my-app --ignore-not-found`{{exec}}
-
-`vcluster disconnect`{{exec}}
-
 Delete the virtual clusters from the host:
 
 `vcluster delete my-vcluster-a --namespace team-x`{{exec}}
