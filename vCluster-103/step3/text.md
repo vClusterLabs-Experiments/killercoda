@@ -8,7 +8,7 @@ We will port-forward each `my-app` service so they can be reached locally.
 
 `vcluster disconnect`{{exec}}
 
-`vcluster connect my-vcluster-b --namespace team-x`{{exec}}
+`vcluster connect my-vcluster-b --namespace`{{exec}}
 
 `kubectl port-forward svc/my-app 28080:80 &`{{exec}}
 
