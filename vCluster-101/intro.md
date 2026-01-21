@@ -4,6 +4,8 @@ What is vCluster?
 
 vCluster lets teams run virtual Kubernetes clusters on existing host clusters, giving each tenant an isolated control plane without creating separate physical clusters. It supports tenancy models from simple namespace isolation to fully dedicated nodes, GPUs, and bare metal. Environments are defined declaratively for easy, repeatable provisioning. By consolidating many virtual clusters onto fewer hosts, teams cut Kubernetes costs and simplify multi-tenant operations.
 
+![Scan Results](./assets/shared-nodes.png)
+
 What does this lab cover?
 
 In this lab we are going to cover most of the Quick-Start Guide (https://www.vcluster.com/docs/vcluster/) in the vCluster docs.
