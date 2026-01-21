@@ -7,11 +7,17 @@
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "Create two vClusters", "text": "step1/text.md", "verify": "step1/verify.sh" },
-      { "title": "Deploy same app name in both", "text": "step2/text.md", "verify": "step2/verify.sh" },
-      { "title": "Expose both apps", "text": "step3/text.md", "verify": "step3/verify.sh" },
-      { "title": "Verify independent access", "text": "step4/text.md", "verify": "step4/verify.sh" },
-      { "title": "Cleanup & wrap-up", "text": "step5/text.md", "verify": "step5/verify.sh" }
+      { "title": "What Is a Namespace?", "text": "step1/text.md", "verify": "step1/verify.sh" },
+      { "title": "What Is a vCluster?", "text": "step2/text.md", "verify": "step2/verify.sh" },
+      { "title": "CRD Version Differences (Host vs vCluster)", "text": "step3/text.md", "verify": "step3/verify.sh" },
+      { "title": "Install Cert-Manager CRD in the Host Cluster", "text": "step4/text.md", "verify": "step4/verify.sh" },
+      { "title": "Install a Different Cert-Manager Version in the vCluster", "text": "step5/text.md", "verify": "step5/verify.sh" },
+      { "title": "Install Kyverno on the Host Cluster", "text": "step6/text.md", "verify": "step6/verify.sh" },
+      { "title": "Install OPA (Gatekeeper) inside the vCluster", "text": "step7/text.md", "verify": "step7/verify.sh" },
+      { "title": "Tenancy Model Overview", "text": "step8/text.md", "verify": "step8/verify.sh" },
+      { "title": "Shared Nodes", "text": "step9/text.md", "verify": "step9/verify.sh" },
+      { "title": "Dedicated Nodes", "text": "step10/text.md", "verify": "step10/verify.sh" },
+      { "title": "Private Nodes + Autonodes", "text": "step11/text.md", "verify": "step11/verify.sh" }
     ],
     "finish": { "text": "finish.md" }
   },
