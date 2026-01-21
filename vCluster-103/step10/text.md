@@ -20,3 +20,5 @@ scheduler:
 
 - Strong workload separation
 - Great for putting teams on nodes with GPUs
+
+![Scan Results](../assets/dedicated_nodes_killercoda.png)
