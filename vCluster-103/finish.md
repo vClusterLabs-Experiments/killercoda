@@ -23,3 +23,7 @@ https://slack.vcluster.com
 
 Learn more at:
 https://vcluster.com/docs
+
+## Try it Out
+
+Try it out now with [vCluster in Docker (vind)](https://github.com/loft-sh/vind) or try it out with [vCluster Free Tier](http://vcluster.com/pricing).
