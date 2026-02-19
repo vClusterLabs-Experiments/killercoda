@@ -1,2 +1,2 @@
 #!/bin/bash
-vcluster connect my-vcluster --namespace team-x > /dev/null 2>&1 && echo "done"
+vcluster list 2>/dev/null | grep -q my-vcluster; [ $? -ne 0 ] && echo "done"

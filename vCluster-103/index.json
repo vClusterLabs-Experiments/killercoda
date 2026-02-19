@@ -1,25 +1,53 @@
 {
-  "title": "v103 - vCluster Tenancy Models & CRDs",
-  "description": "vCluster Tenancy Models and CRDs scenario.",
+  "title": "v103 - Advanced CRD Management",
+  "description": "Explore CRD isolation between host clusters and vClusters.",
   "details": {
     "intro": {
       "text": "intro.md",
       "background": "setup.sh"
     },
     "steps": [
-      { "title": "What Is a Namespace?", "text": "step1/text.md", "verify": "step1/verify.sh" },
-      { "title": "What Is a vCluster?", "text": "step2/text.md", "verify": "step2/verify.sh" },
-      { "title": "CRD Version Differences (Host vs vCluster)", "text": "step3/text.md", "verify": "step3/verify.sh" },
-      { "title": "Install Cert-Manager CRD in the Host Cluster", "text": "step4/text.md", "verify": "step4/verify.sh" },
-      { "title": "Install a Different Cert-Manager Version in the vCluster", "text": "step5/text.md", "verify": "step5/verify.sh" },
-      { "title": "Install Kyverno on the Host Cluster", "text": "step6/text.md", "verify": "step6/verify.sh" },
-      { "title": "Install OPA (Gatekeeper) inside the vCluster", "text": "step7/text.md", "verify": "step7/verify.sh" },
-      { "title": "Tenancy Model Overview", "text": "step8/text.md", "verify": "step8/verify.sh" },
-      { "title": "Shared Nodes", "text": "step9/text.md", "verify": "step9/verify.sh" },
-      { "title": "Dedicated Nodes", "text": "step10/text.md", "verify": "step10/verify.sh" },
-      { "title": "Private Nodes + Autonodes", "text": "step11/text.md", "verify": "step11/verify.sh" }
+      {
+        "title": "Understanding CRDs and Namespaces",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      },
+      {
+        "title": "Create a vCluster",
+        "text": "step2/text.md",
+        "verify": "step2/verify.sh"
+      },
+      {
+        "title": "Install Cert-Manager CRD on Host",
+        "text": "step3/text.md",
+        "verify": "step3/verify.sh"
+      },
+      {
+        "title": "Install Different Cert-Manager in vCluster",
+        "text": "step4/text.md",
+        "verify": "step4/verify.sh"
+      },
+      {
+        "title": "Install Kyverno on Host",
+        "text": "step5/text.md",
+        "verify": "step5/verify.sh"
+      },
+      {
+        "title": "Install OPA Gatekeeper in vCluster",
+        "text": "step6/text.md",
+        "verify": "step6/verify.sh"
+      },
+      {
+        "title": "Cleanup and Summary",
+        "text": "step7/text.md",
+        "verify": "step7/verify.sh"
+      }
     ],
-    "finish": { "text": "finish.md" }
+    "finish": {
+      "text": "finish.md"
+    }
   },
-  "backend": { "imageid": "kubernetes-kubeadm-1node-4GB" }
+  "backend": {
+    "imageid": "kubernetes-kubeadm-1node-4GB"
+  }
 }

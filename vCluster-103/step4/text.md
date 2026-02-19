@@ -1,27 +1,27 @@
-# Install Cert-Manager CRD in the Host Cluster
+# Step 4 — Install a Different Cert-Manager Version in the vCluster
 
-In this step, we simulate a real-world scenario where the platform team installs Cert-Manager at the cluster level.
+Inside the vCluster, we can install a **completely different version** of Cert-Manager without impacting the host cluster. This demonstrates how teams can test upgrades or run legacy versions independently.
 
-## Verify the context to make sure we are on the host cluster:
+### Connect and Install Cert-Manager v1.13 in the vCluster:
 
-`kubectx`{{exec}}
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
 
-The output should show kubernetes-admin@kubernetes in green.
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.crds.yaml`{{exec}}
 
-## Install Cert-Manager v1.14 on the host:
+List the CRDs:
 
-`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.0/cert-manager.crds.yaml`{{exec}}
+`kubectl get crds`{{exec}}
 
-Inspect the CRD:
+Now compare the vCluster vs Host:
+
+## vCluster version (v1.13.0):
 
 `kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
 
-List all cert-manager CRDs:
+## Host version (v1.14.0):
 
-`kubectl get crds | grep cert-manager`{{exec}}
+`vcluster disconnect`{{exec}}
 
-## Result:
+`kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
 
-The host cluster now runs Cert-Manager v1.14.0.
-
-This is a common scenario in shared cluster environments where the platform team manages a specific version.
+The two versions are different and that's the point. vCluster allows **CRD version isolation**, making testing and migration safer.

@@ -1,13 +1,21 @@
-# Deploy a vCluster
+# Step 2 — Deploy a vCluster
 
-Before we deploy the vCluster let's take a look at the namespaces and CRDs on the host cluster. Since a vCluster creates a new virtual kubernetes cluster, we're going to get a brand new API endpoint with a database backing it. This means that we will have different namespaces, CRDs, and other resources that are not 1:1 with the host cluster. 
+Before we deploy the vCluster, let's record what the host cluster looks like right now. This gives you a baseline to compare against when you look at the host again in Step 5.
 
-`kubectl get crds`{{exec}}
+Check what namespaces exist on the host:
 
 `kubectl get namespaces`{{exec}}
 
-Now we will deploy a vCluster. We are going to use `vcluster create` and specify the name of the vCluster and the namespace where we want to deploy it. For each vCluster you will need a namespace on the host cluster.
+Check what CRDs are registered on the host:
+
+`kubectl get crds`{{exec}}
+
+Note what you see — the namespace list and CRD list are your "before" snapshot. A vCluster creates its own virtual API server and etcd, so its namespace and CRD lists will be completely independent of these.
+
+Now create the vCluster:
 
 `vcluster create my-vcluster --namespace team-x`{{exec}}
 
-After the command finishes, and the vCluster is available, we will be automatically connected to it. This demo environment has Docker installed which will spin up a proxy container so that we can connect to the cluster.
+After the command finishes and the vCluster is available, you'll be automatically connected to it. This demo environment has Docker installed, which spins up a proxy container to handle the connection.
+
+At this point your `kubectl` context has switched to the vCluster. In Step 5 you'll disconnect and inspect the host to see what actually appeared there when you ran this command.

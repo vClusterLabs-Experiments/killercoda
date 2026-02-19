@@ -1,21 +1,19 @@
-# Install OPA (Gatekeeper) inside the vCluster
+# Step 7 — Cleanup and Summary
 
-Inside the vCluster, tenants can run a different policy engine to manage policies using its own CRDs. This shows that host and vCluster can run different tools with similar responsibilities.
+Let's clean up by deleting the vCluster.
 
-## Install Gatekeeper (OPA) in the vCluster:
+`vcluster delete my-vcluster`{{exec}}
 
-`vcluster connect my-vcluster --namespace team-x`{{exec}}
+Verify the vCluster has been removed:
 
-`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`{{exec}}
+`vcluster list`{{exec}}
 
-List Gatekeeper/OPA CRDs in the vCluster:
+## What We Learned
 
-`kubectl get crds | grep -i "gatekeeper"`{{exec}}
+In this scenario we demonstrated CRD isolation with vCluster:
 
-Also list all CRDs to see that Kyverno is not installed in the vCluster.
+- **Cert-Manager v1.14** on the host vs **v1.13** in the vCluster — different teams can run different versions without conflict
+- **Kyverno** on the host vs **OPA Gatekeeper** in the vCluster — teams can choose their own policy engines independently
+- CRDs are cluster-scoped in Kubernetes, but vCluster gives each tenant their own cluster-scope
 
-`kubectl get crds`{{exec}}
-
-This shows:
-- Host cluster runs Kyverno
-- vCluster runs OPA Gatekeeper
+This isolation is key to enabling multi-tenant Kubernetes environments where teams need independence without the cost of separate physical clusters.

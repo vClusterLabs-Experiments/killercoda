@@ -21,4 +21,3 @@ Repeat the steps for the second vCluster:
 `kubectl expose deployment my-app --port=80 --target-port=80 --type=ClusterIP`{{exec}}
 
 `vcluster disconnect`{{exec}}
-

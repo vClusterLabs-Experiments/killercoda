@@ -1,4 +1,4 @@
-# Remove the vCluster
+# Step 6 — Remove the vCluster
 
 In this last step we will delete the vCluster. A vCluster can be ephemeral if needed as it is fast to spin up and fast to delete.
 

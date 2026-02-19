@@ -22,17 +22,17 @@
         "text": "step3/text.md",
         "verify": "step3/verify.sh"
       },
-            {
+      {
         "title": "Create a Deployment",
         "text": "step4/text.md",
         "verify": "step4/verify.sh"
       },
-            {
+      {
         "title": "Inspect the Host Cluster",
         "text": "step5/text.md",
         "verify": "step5/verify.sh"
       },
-                  {
+      {
         "title": "Remove the vCluster",
         "text": "step6/text.md",
         "verify": "step6/verify.sh"
