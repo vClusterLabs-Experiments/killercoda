@@ -21,9 +21,6 @@ Learn more at:
 
 https://vcluster.com/docs
 
-### Try vCluster on Your Own
+## Try it Out
 
-Ready to use vCluster outside of this sandbox?
-
-- **Run vCluster locally** with [vind](https://github.com/loft-sh/vind) — spin up virtual clusters on your own machine
-- **Sign up for free** at [vcluster.com/pricing](https://vcluster.com/pricing) — get started with the free tier on any Kubernetes cluster
+Try it out now with [vCluster in Docker (vind)](https://github.com/loft-sh/vind) or try it out with [vCluster Free Tier](http://vcluster.com/pricing).

@@ -19,7 +19,11 @@ Answers are in the [vCluster docs](https://www.vcluster.com/docs/vcluster/).
 - **vCluster 103** — Tenancy Models & CRDs: install different cert-manager versions simultaneously in isolated vClusters
 - **All scenarios**: see the [full lab series](https://killercoda.com/vcluster)
 
-## Try vCluster on your own
+## Try it Out
+
+Try it out now with [vCluster in Docker (vind)](https://github.com/loft-sh/vind) or try it out with [vCluster Free Tier](http://vcluster.com/pricing).
+
+Thank you for working through our vCluster 101 lab!
 
 - **Run vCluster locally** with [vind](https://github.com/loft-sh/vind) — spin up virtual clusters on your own machine
 - **Sign up for free** at [vcluster.com/pricing](https://vcluster.com/pricing) — get started with the free tier on any Kubernetes cluster
