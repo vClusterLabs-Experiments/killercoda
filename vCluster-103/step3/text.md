@@ -1,24 +1,27 @@
-# CRD Version Differences (Host vs vCluster)
+# Step 3 — Install Cert-Manager CRD on Host
 
-CRDs in Kubernetes are **cluster-scoped**, meaning all Namespaces share the same CRD definitions.
+In this step, we simulate a real-world scenario where the platform team installs Cert-Manager at the cluster level.
 
-But vCluster creates a new API which can be configured with:
-- Different CRD versions
-- CRDs that don't exist on the host
-- CRDs that would conflict in a shared cluster
+## Verify the context to make sure we are on the host cluster:
 
-## Check vCluster CRDs:
+`kubectx`{{exec}}
 
-The vCluster deploys without any CRDs by default as it is a fresh Kubernetes deployment. 
+The output should show kubernetes-admin@kubernetes in green.
 
-`kubectl get crds`{{exec}}
+## Install Cert-Manager v1.14 on the host:
 
-## Check host CRDs:
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.0/cert-manager.crds.yaml`{{exec}}
 
-Now we will disconnect from the vCluster and list the host CRDs.
+Inspect the CRD:
 
-`vcluster disconnect`{{exec}}
+`kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
 
-`kubectl get crds`{{exec}}
+List all cert-manager CRDs:
 
-CRDs are a great way to demonstrate isolation in a vCluster.
+`kubectl get crds | grep cert-manager`{{exec}}
+
+## Result:
+
+The host cluster now runs Cert-Manager v1.14.0.
+
+This is a common scenario in shared cluster environments where the platform team manages a specific version.

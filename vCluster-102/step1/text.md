@@ -1,8 +1,6 @@
 # Step 1 — Create two vClusters
 
-Create two vClusters in the `team-x` namespace. We'll name them `my-vcluster-a` and `my-vcluster-b`.
-
-Commands:
+Create two vClusters in separate namespaces. We'll name them `my-vcluster-a` in the `team-x` namespace and `my-vcluster-b` in the `team-y` namespace.
 
 `kubectl create namespace team-x`{{exec}}
 
@@ -12,4 +10,6 @@ Commands:
 
 `vcluster create --connect=false my-vcluster-b --namespace team-y`{{exec}}
 
-Verify both are running with `vcluster list`{{exec}}.
+Verify both are running:
+
+`vcluster list`{{exec}}

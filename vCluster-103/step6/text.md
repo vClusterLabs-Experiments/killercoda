@@ -1,23 +1,23 @@
-# Install Kyverno on the Host Cluster
+# Step 6 — Install OPA Gatekeeper in vCluster
 
-The host cluster can run a policy controller such as Kyverno. Kyverno adds policy CRDs (`ClusterPolicy`, `Policy`, etc.) and is straightforward to install via manifest.
+Inside the vCluster, tenants can run a different policy engine to manage policies using its own CRDs. This shows that host and vCluster can run different tools with similar responsibilities.
 
-## Verify Context
+## Install Gatekeeper (OPA) in the vCluster:
 
-Let's make sure we are on the host cluster before deploying Kyverno.
+`vcluster connect my-vcluster --namespace team-x`{{exec}}
 
-`kubectx`{{exec}}
+`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`{{exec}}
 
-If at any time you need to swap to the Host Cluster from the vCluster you can run:
+List Gatekeeper/OPA CRDs in the vCluster:
+
+`kubectl get crds | grep -i "gatekeeper"`{{exec}}
+
+Also list all CRDs to see that Kyverno is not installed in the vCluster.
+
+`kubectl get crds`{{exec}}
+
+This shows:
+- Host cluster runs Kyverno
+- vCluster runs OPA Gatekeeper
 
 `vcluster disconnect`{{exec}}
-
-## Install Kyverno on the host:
-
-`kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml`{{exec}}
-
-List Kyverno CRDs:
-
-`kubectl get crds | grep -i kyverno`{{exec}}
-
-The host now contains Kyverno CRDs.

@@ -1,4 +1,2 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-echo "Step 1: overview - nothing to verify"
+#!/bin/bash
+vcluster list | grep -q my-vcluster-a && vcluster list | grep -q my-vcluster-b && echo "done"

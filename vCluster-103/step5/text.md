@@ -1,27 +1,23 @@
-# Install a Different Cert-Manager Version in the vCluster
+# Step 5 — Install Kyverno on the Host Cluster
 
-Inside the vCluster, we can install a **completely different version** of Cert-Manager without impacting the host cluster. This demonstrates how teams can test upgrades or run legacy versions independently.
+The host cluster can run a policy controller such as Kyverno. Kyverno adds policy CRDs (`ClusterPolicy`, `Policy`, etc.) and is straightforward to install via manifest.
 
-### Connect and Install Cert-Manager v1.13 in the vCluster:
+## Verify Context
 
-`vcluster connect my-vcluster --namespace team-x`{{exec}}
+Let's make sure we are on the host cluster before deploying Kyverno.
 
-`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.crds.yaml`{{exec}}
+`kubectx`{{exec}}
 
-List the CRDs
-
-`kubectl get crds`{{exec}}
-
-Now compare the vCluster vs Host:
-
-## vCluster version (v1.13.0):
-
-`kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
-
-## Host version (v1.14.0):
+If at any time you need to swap to the Host Cluster from the vCluster you can run:
 
 `vcluster disconnect`{{exec}}
 
-`kubectl get crd certificates.cert-manager.io -o yaml | grep "app.kubernetes.io/version:"`{{exec}}
+## Install Kyverno on the host:
 
-The two versions are different and that's the point. vCluster allows **CRD version isolation**, making testing and migration safer.
+`kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml`{{exec}}
+
+List Kyverno CRDs:
+
+`kubectl get crds | grep -i kyverno`{{exec}}
+
+The host now contains Kyverno CRDs.

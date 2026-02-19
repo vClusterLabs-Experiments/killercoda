@@ -1,2 +1,2 @@
 #!/bin/bash
-vcluster connect my-vcluster --namespace team-x > /dev/null 2>&1 && kubectl get crd > /dev/null 2>&1 && echo "done"
+kubectl get crds 2>/dev/null | grep -q kyverno && echo "done"

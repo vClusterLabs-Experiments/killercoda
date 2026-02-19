@@ -1,2 +1,2 @@
 #!/bin/bash
-kubectl get crds > /dev/null 2>&1 && echo "done"
+kubectl get crd certificates.cert-manager.io > /dev/null 2>&1 && echo "done"
